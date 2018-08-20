@@ -1,4 +1,4 @@
-wosho=/home/qiime/Desktop/workshop
+wosho=/home/qiime/Desktop/16S_Tutorial
 otu_folder=$wosho/output/otu_picking/QIIME_dnVS
 
 for entry in $(grep '>' ${otu_folder}/vsearch_otus/dnVS.fa  | tr -d '>' | tr ' ' ';'); do
