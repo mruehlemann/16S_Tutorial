@@ -1,4 +1,4 @@
-wosho=/home/qiime/Desktop/workshop
+wosho=/home/qiime/Desktop/16S_Tutorial
 otu_folder=$wosho/output/otu_picking/VSEARCH_dnVS
 
 # Assign taxonomy command
