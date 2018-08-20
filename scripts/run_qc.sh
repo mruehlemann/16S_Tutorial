@@ -1,4 +1,4 @@
-wosho=/home/qiime/Desktop/workshop
+wosho=/home/qiime/Desktop/16S_Tutorial
 out=$wosho/output/QIIME
 raw=$wosho/raw_data
 
