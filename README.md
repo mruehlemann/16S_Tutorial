@@ -392,7 +392,7 @@ While this is running, there is one thing we have not yet talked about, which is
 
 As mentioned before, one of the basic concepts in the analysis of microbial amplicon data, is that all the analyzed organisms share a common ancestor, making them monophyletic. This concept is the basis of the creation of so-called phylogenetic trees, which are created to visualize relations between e.g. organisms. One famous example is Charles Darwin’s Tree of Life:
 
-![alt text](/static/tol.png "Logo Title Text 1")
+![alt text](/static/tol.png "Darwin's tree of life" =250x)
 
 This tree depicts each organism under study as a tip or ‘leaf’ in the tree, and all tips are connected by the branches in the tree, the closer the organisms are to each other, the ‘earlier’ they are connected at an internal node. While in general this is also what we talk about when looking at bacteria, one property that he did not cover, is that we assume, that all splits in the branches of the tree are bifurcating, meaning that there are exactly two branches going out of each internal node. 
 
