@@ -23,9 +23,9 @@ About the dataset: this dataset consists of a total of 22 samples generated from
 After sending your samples out for sequencing, you will very likely not receive the very raw data from the sequencer, but a bunch of files for each sample you handed over for sequencing. These files carry the raw, already base-called and demultiplexed, sequences in the so-called FastQ format. The following steps will introduce you to this format and explain how to proceed with this kind of data. But first, let’s get a little familiar with the command line.
 
 Open a Terminal by clicking on the icon in the sidebar on the left. The terminal should open. You will see something like:
-
+```
 qiime@qiime-190-virtual-box:~$ 
-
+```
 and a ‚flashing’ box. This is where you can enter your commands. Every line with a command will now be written starting simply with a dollar sign $. For example:
 ```bash
 $ pwd
@@ -59,7 +59,7 @@ Between the commands ls and head, we see a vertical bar. This bar is called the 
 
 What you see as output is the typical data you will get from your sequencing facility. Let us dissect the filename of the first file to make sense of it:
 
-B-1104-S_S70_L001_R1_001.fastq.gz
+<center>B-1104-S_S70_L001_R1_001.fastq.gz</center)
 
 B-1104-S:	This is the sample name and can be anything you want it to be. In this case this name is composed of ‘B’ for ‘Bear’, ‘1104’ is the ID of the bear, and ‘S’ which means that the sample was taken in summer. You will also see “B-1104-W” a few lines further down, which is the data of the same individual but taken in winter.
 
