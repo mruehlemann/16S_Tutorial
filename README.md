@@ -1,8 +1,8 @@
 # 16S Amplicon Sequencing Workshop Tutorial #
 
-Written by Malte Rühlemann
+Written by Malte Rühlemann (m.ruehlemann [at] ikmb.uni-kiel.de)
 
-Hosted by: Malte Rühlemann & Felix Sommer
+Hosted by: Malte Rühlemann & Felix Sommer (f.somme [at] ikmb.uni-kiel.de)
 
 ## 1. Introduction ##
 
@@ -412,7 +412,7 @@ Once the alignment is completed, this has to be translated into a tree. This ste
 
 Which translates to this tree:
 
-![](/static/tree.jpg)
+![](/static/tree.png)
 
 Explained: One split in the tree is always separated by a comma, the numbers given after the colon are the branch lengths.
 
@@ -434,8 +434,7 @@ Followed by the open-ref picking and the QIIME de-novo approach (this one also f
 
 ```bash
 $ qor=$wosho/output/otu_picking/QIIME_open_ref
-$ core_diversity_analyses.py -i \
-$qor/otu_table_mc2_w_tax_no_pynast_failures.biom -m $wosho/resources/map.tsv -c Season -t $qor/rep_set.tre -o $wosho/output/analysis/QIIME_open_ref --sampling_depth 5000
+$ core_diversity_analyses.py -i $qor/otu_table_mc2_w_tax_no_pynast_failures.biom -m $wosho/resources/map.tsv -c Season -t $qor/rep_set.tre -o $wosho/output/analysis/QIIME_open_ref --sampling_depth 5000
 $ qdn=$wosho/output/otu_picking/QIIME_denovo
 $ core_diversity_analyses.py -i $qdn/otu_table.biom -m $wosho/resources/map.tsv -c Season -t $qdn/rep_set.tre -o $wosho/output/analysis/QIIME_denovo --sampling_depth 5000
 $ qdnvs=$wosho/output/otu_picking/QIIME_dnVS
@@ -468,7 +467,7 @@ The Chao1 estimator is a descriptor of alpha-diversity that tries to estimate (w
  
 This measure of alpha diversity not only takes into account the OTU abundances, but also the relationship of the OTUs to each other by using the previously mentioned phylogenetic tree constructed from the OTU sequences. Briefly, the PD calculates the branchlengths of the tree spanning all OTUs observed in a sample.
 
-![](/static/phylo.jpg)
+![](/static/phylo.png)
 
 ### 5.3.4 Shannon Diversity
 
@@ -625,8 +624,7 @@ You can scroll by using the arrows on the keyboard and leave the page again by h
 In R, you can import data in text format using the “read.table” command. We will now import the OTU table we just converted, telling R to use “tab” as field sepearator (sep=”\t”), check the dimensions of the imported table (dim(seqtab)) and then look at the first lines of the imported table (head() command):
 
 ```R
-R> seqtab<-read.table("output/analysis/QIIME_open_ref/otu_table.txt", 
-head=T, sep="\t",stringsAsFactors=F,row.names=1)
+R> seqtab<-read.table("output/analysis/QIIME_open_ref/otu_table.txt", head=T, sep="\t",stringsAsFactors=F,row.names=1)
 R> dim(seqtab)
 R> head(seqtab)
 ```
@@ -1040,10 +1038,10 @@ R> for(tax in rownames(outtab[outtab$p.adj<0.05,])){
 	}
 ```
 
-7.4 LEfSe
+### 7.4 LEfSe
 
 The last tool we will have a look on is LEfSe, which is short for LDA Effect Size. 
-![](/static/lefse.png)
+![](/static/LEfSe.png)
 Image taken from the LEfSe Galaxy Website
 
 LEfSe works by using data in categories and subcategories and a multi-step approach. In a first step, LEfSe excludes all features (OTUs, taxa, etc.) that do not show a significant difference (p<0.05) in a Kruskal-Wallis-Test explained by the category variable, followed by pairwise comparisons of the sub-categories using a Wilcoxon Test. All features surviving these analyses will be submitted to a Linear Discriminant Analysis (LDA) to estimate effect size, which is then plotted. 
