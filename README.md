@@ -15,8 +15,8 @@ The VirtualBox on the provided computers should already be configured and workin
 The dataset we will use in the tutorial is a subset of the data from the article ‚The Gut Microbiota Modulates Energy Metabolism in the Hibernating Brown Bear Ursus arctos’ by Sommer et al. (Cell Reports, 2016, doi.org/10.1016/j.celrep.2016.01.026).
 
 To get all the data needed open the terminal and type:
-´´´
-> cd Desktop
-> git clone http://github.com/mruehlemann/16S_Tutorial
-> 
-´´´
+```bash
+cd Desktop
+git clone http://github.com/mruehlemann/16S_Tutorial
+ 
+```
