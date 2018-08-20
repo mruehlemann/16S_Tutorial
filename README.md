@@ -23,7 +23,7 @@ About the dataset: this dataset consists of a total of 22 samples generated from
 After sending your samples out for sequencing, you will very likely not receive the very raw data from the sequencer, but a bunch of files for each sample you handed over for sequencing. These files carry the raw, already base-called and demultiplexed, sequences in the so-called FastQ format. The following steps will introduce you to this format and explain how to proceed with this kind of data. But first, let’s get a little familiar with the command line.
 
 Open a Terminal by clicking on the icon in the sidebar on the left. The terminal should open. You will see something like:
-```
+```bash
 qiime@qiime-190-virtual-box:~$ 
 ```
 and a ‚flashing’ box. This is where you can enter your commands. Every line with a command will now be written starting simply with a dollar sign $. For example:
@@ -32,7 +32,7 @@ $ pwd
 ```
 
 Please do not include the $ when copying the command. When you type this command, the terminal will put out the folder you are currently working in (pwd is short for ‚print work directory’). You can learn more about commands if you enter man followed by the command:
-```
+```bash
 $ man pwd
 ```
 This shows you information about the pwd command. You can close the manual by pressing q. You can do this for many of the default commands if you want to have further information.
@@ -46,12 +46,12 @@ $ sh scripts/get_data.sh
 ```
 
 Let’s switch to the folder where we can access our sequencing data (cd; change directory) and show the contents (ls; list directory content):
-```
+```bash
 $ cd /home/qiime/Desktop
 $ ls
 ```
 We can see that in this folder there is another folder called raw_data. We now change into this directory, and list the first 10 files (head –n 10):
-```
+```bash
 $ cd raw_data
 $ ls | head -n 10
 ```
@@ -59,64 +59,79 @@ Between the commands ls and head, we see a vertical bar. This bar is called the 
 
 What you see as output is the typical data you will get from your sequencing facility. Let us dissect the filename of the first file to make sense of it:
 
-<center>B-1104-S_S70_L001_R1_001.fastq.gz</center)
+<p align="center"><tt>B-1104-S_S70_L001_R1_001.fastq.gz</tt></p>
+<table>
+<tr>
+<td><tt>B-1104-S<td>This is the sample name and can be anything you want it to be. In this case this name is composed of ‘B’ for ‘Bear’, ‘1104’ is the ID of the bear, and ‘S’ which means that the sample was taken in summer. You will also see “B-1104-W” a few lines further down, which is the data of the same individual but taken in winter.
+<tr>
+<td><tt>S70<td>This part of the filename simply tells you that it is sample 70 of this specific sequencing run. Among other things to expect at this position of the filename are for example the index-sequences used in multiplexing.
 
-B-1104-S:	This is the sample name and can be anything you want it to be. In this case this name is composed of ‘B’ for ‘Bear’, ‘1104’ is the ID of the bear, and ‘S’ which means that the sample was taken in summer. You will also see “B-1104-W” a few lines further down, which is the data of the same individual but taken in winter.
+<tr>
+<td><tt>L001<td>This stands for ‘Lane 1’. When working with MiSeq data, this will always be Lane 1, as a MiSeq sequencer only has a single lane. When working with data from e.g. a HiSeq sequencer, this might be something between L001 and L008.
 
-S70:		This part of the filename simply tells you that it is sample 70 of this specific sequencing run. Among other things to expect at this position of the filename are for example the index-sequences used in multiplexing.
+<tr>
+<td><tt>R1<td>This tells you that this file contains the forward read (Read 1) of the sequencing data. When you look at the second file in the list, you will see that the filename is exactly the same apart from this position, where it says ‘R2’. This means that these two files belong together and contain the read pairs of a single sample.
 
-L001:	This stands for ‘Lane 1’. When working with MiSeq data, this will always be Lane 1, as a MiSeq sequencer only has a single lane. When working with data from e.g. a HiSeq sequencer, this might be something between L001 and L008.
+<tr>
+<td><tt>001<td>This is always 001. Don’t ask why.
 
-R1:		This tells you that this file contains the forward read (Read 1) of the sequencing data. When you look at the second file in the list, you will see that the filename is exactly the same apart from this position, where it says ‘R2’. This means that these two files belong together and contain the read pairs of a single sample.
-
-001:		This is always 001. Don’t ask why.
-
-fastq.gz:	This is the filename ending, indicating the file format. fastq indicates that the file is in FastQ format, the gz at the end means, that the file is compressed using the Gzip compression. More about this later.
+<tr>
+<td><tt>fastq.gz<td>This is the filename ending, indicating the file format. fastq indicates that the file is in FastQ format, the gz at the end means, that the file is compressed using the Gzip compression. More about this later.
+</table>
 
 Okay, now that we know what all those filename mean, let’s have a look at what is in the file. For this we need to first decompress the file (gunzip), pass the output to stdout (-c), pipe it to the next command and display the first four lines in the file:
 
+```bash
 $ gunzip -c B-1104-S_S70_L001_R1_001.fastq.gz | head -n 4
-
-
-
-
+```
 
 What you get will look something like this:
-
+```
 @M02765:9:000000000-A8H6D:1:1101:15136:1407 1:N:0:70
 TACAGAGGATGCAAGCGTTATCCGGAATGATTGGGCGTAAAGCGTCTGTAGG
 +
 ABBBBFFBFFFFGGGGFGGEGFHGGEFFHGGHHGHHGGGGHHHGGGEGHHHH
-
+```
 This output is the standard format of the FastQ sequencing data format. One sequence in FastQ format always consists of four lines:
+<table>
+<tr>
+<td>Line 1:<td>This line is the start of the entry and always starts with the @ symbol, followed by a unique sequence ID. This ID is the same in both read files (R1+R2) and defines which sequences belong together. When looking at Illumina sequencing data, this ID consists of the unique instrument ID (M02765), the run ID (9), the flowcell ID (A8H6D) and the lane (1), followed by coordinates of the sequence cluster on the flowcell. After the space there are more informations on the sequence, however these do not belong to the unique sequence ID.
 
-Line 1: 	This line is the start of the entry and always starts with the @ symbol, followed by a unique sequence ID. This ID is the same in both read files (R1+R2) and defines which sequences belong together. When looking at Illumina sequencing data, this ID consists of the unique instrument ID (M02765), the run ID (9), the flowcell ID (A8H6D) and the lane (1), followed by coordinates of the sequence cluster on the flowcell. After the space there are more informations on the sequence, however these do not belong to the unique sequence ID.
+<tr>
+<td>Line 2:<td>This is the actual sequence obtained from basecalling of the raw data. In our case this is the 16S amplicon sequence.
 
-Line 2:	This is the actual sequence obtained from basecalling of the raw data. In our case this is the 16S amplicon sequence.
+<tr>
+<td>Line 3:<td>this line can contain additional information about the sequence, however usually only contains a mandatory ‚+’ symbol. 
 
-Line 3:	this line can contain additional information about the sequence, however usually only contains a mandatory ‚+’ symbol. 
-
-Line 4:	In this line the quality of every single base in the sequence is encoded. The first position of this line corresponds to the first position of the sequence, the second to the second, and so on. Each ASCII-character endcodes a special value between 0 and 41 (in the most widely used Illumina 1.8 Phred+33 format; +33 stands for an offset of 33 in the ASCII characters).  The highest Phred score a base can get is in this case 41, encoded by the letter J (ASCII: 74), the lowest is 0, encoded by ! (ASCII: 33). The Phred score (Q) is defined as the probability (P), that the base at this position is incorrect: P(Q)=10-Q10. This corresponds to 0.01% error probability at Q=40 and 10% at Q=10.
+<tr>
+<td widht=3>Line 4:<td>In this line the quality of every single base in the sequence is encoded. The first position of this line corresponds to the first position of the sequence, the second to the second, and so on. Each ASCII-character endcodes a special value between 0 and 41 (in the most widely used Illumina 1.8 Phred+33 format; +33 stands for an offset of 33 in the ASCII characters).  The highest Phred score a base can get is in this case 41, encoded by the letter J (ASCII: 74), the lowest is 0, encoded by ! (ASCII: 33). The Phred score (Q) is defined as the probability (P), that the base at this position is incorrect: P(Q)=10-Q10. This corresponds to 0.01% error probability at Q=40 and 10% at Q=10.
+</table>
 
 Phred+33 encoding of quality scores:
-
-Symbol	 !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJ  
- |                                        |                 
-ASCII	33                                       73
-Q Score	 0.2......................26...31........41                             
+```
+Symbol	 !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJ
+        |                                        |          
+ASCII	  33                                      73
+Q Score	0.2......................26...31........41                      
+```
 
 
 Of course it is not possible to check each single sequence by ‘hand’, however there are a lot of very handy tools to check if the sequencing in general yielded satisfactory data. One tool we want to introduce is the very easy to use and freely available FastQC. Please go the website (http://www.bioinformatics.babraham.ac.uk/projects/fastqc/) using the browser in the VirtualBox, download the tool and unpack it. For this, please create a folder on the Desktop called ‘software’, double-click on the downloaded archive and move the ‘FastQC’ folder into the newly created ‘software’ folder. Go to the terminal again and change to the FastQC software folder:
-
+```
 $ cd /home/qiime/Desktop/software/FastQC
+```
 
 To use fastqc, we first have to make the binary file executable. For this type this into the terminal:
 
+```
 $ chmod +x fastqc
+```
 
 The command chmod can be used to change the mode or access permission of a file. Here we add permission to execute (+x) to the fastqc binary. No we can start FastQC:
 
+```
 $ ./fastqc
+```
 
 This should open the FastQC software. In the Menu bar go to: “File > Open …” and navigate to the raw_data folder in Shared_Folder. By holding the Shift key you can select multiple files at once. Please select the R1 and R2 read of the Sample “B-1105-W” and click the “OK” button. You will see the files being processed and quickly the reports should open, each as a tab in the FastQC window. On the left side you will see several green, orange and red symbols. These are the different quality criteria assessed by FastQC. However, let’s start with the first one called “Basic statistic”. Here you can already see some basic properties of the opened files, for example that each of the files holds 77868 sequences (as they are the paired reads of the same sample this should be the same; if it is not, there is something wrong), the sequence lengths are between 248 and 251 nt and the GC content differs sligthly between R1 and R2, however both being a little above 50%.
 
@@ -133,11 +148,13 @@ In general we can say: our data look just like we expect it to look!
 
 One more very convenient thing about FastQC is, that you can also use it for batch processing of FastQ file. Close the FastQC window and type:
 
-$ wosho=/home/qiime/Desktop/workshop
+```
+$ wosho=/home/qiime/Desktop/16S_Tutorial
 $ echo $wosho
 $ raw=$wosho/raw_data
 $ echo $raw
 $ ./fastqc $raw/B-1105-W_* --outdir /home/qiime/Desktop
+```
 
 In the first line, we set a variable named “wosho”. This is very easy in the bash environment and might look a little different in other programming languages. In general, many things can be stored in variables, however, here we use it for a path to a folder. In the third line, we set another variable “raw”, which has the same content as “wosho”, plus “/raw_data” at the end. As you can see, the content of the variables can be show by using “echo” followed by the variable with a dollar sign prepended. The last line starts the fastqc binary, applied to all files in the folder that is stored in the “raw” variable that start with “B-1105-W_”. The asterisk “*” is a so-called “wildcard” and matches every character when searching for filenames.
 
