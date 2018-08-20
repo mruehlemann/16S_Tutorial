@@ -2,7 +2,9 @@
 
 Written by Malte Rühlemann (m.ruehlemann [at] ikmb.uni-kiel.de)
 
-Hosted by: Malte Rühlemann & Felix Sommer (f.somme [at] ikmb.uni-kiel.de)
+Hosted by: Malte Rühlemann & Felix Sommer (f.sommer [at] ikmb.uni-kiel.de)
+
+This tutorial was hosted in June and July 2018 at Kiel University. The script was converted from a word file to a Git Repository afterwards, making it possible that there are errors in the workflow. If you encounter any problem, please write me an email (m.ruehlemann [at] ikmb.uni-kiel.de) or create an issue via Github. 
 
 ## 1. Introduction ##
 
