@@ -44,7 +44,8 @@ We first need to download the data needed for the tutorial. Type
 ```bash
 $ cd Desktop
 $ git clone http://github.com/mruehlemann/16S_Tutorial
-$ sh scripts/get_data.sh
+$ cd 16S_Tutorial
+$ bash scripts/get_data.sh
 ```
 
 Let’s switch to the folder where we can access our sequencing data (cd; change directory) and show the contents (ls; list directory content):
